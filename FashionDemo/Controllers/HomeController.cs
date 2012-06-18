@@ -257,7 +257,7 @@ namespace FashionDemo.Controllers
         private List<string> GetImages()
         {
             //getting images
-            var d = new DirectoryInfo(Server.MapPath("~/Uploads/Images"));
+            var d = new DirectoryInfo(Server.MapPath("~/Appdata/"));
 
             var imageFiles = d.GetFiles();
             var images = imageFiles.Where(f => f.Name.Contains("_refl")).Select(file => "~/Uploads/Images/" + file.Name).ToList();

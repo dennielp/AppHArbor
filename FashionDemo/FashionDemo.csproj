@@ -86,6 +86,15 @@
     <Compile Include="ViewModels\IndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\img1_refl.jpg" />
+    <Content Include="App_Data\img2_refl.jpg" />
+    <Content Include="App_Data\img3_refl.jpg" />
+    <Content Include="App_Data\img4_refl.jpg" />
+    <Content Include="App_Data\img5_refl.jpg" />
+    <Content Include="App_Data\img6_refl.jpg" />
+    <Content Include="App_Data\img7_refl.jpg" />
+    <Content Include="App_Data\img8_refl.jpg" />
+    <Content Include="App_Data\img9_refl.jpg" />
     <Content Include="Content\css.css" />
     <Content Include="Content\css\jquery.selectbox.css" />
     <Content Include="Content\images\about_btn.png" />
@@ -219,6 +228,15 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Uploads\Images\img1_refl.jpg" />
+    <Content Include="Uploads\Images\img2_refl.jpg" />
+    <Content Include="Uploads\Images\img3_refl.jpg" />
+    <Content Include="Uploads\Images\img4_refl.jpg" />
+    <Content Include="Uploads\Images\img5_refl.jpg" />
+    <Content Include="Uploads\Images\img6_refl.jpg" />
+    <Content Include="Uploads\Images\img7_refl.jpg" />
+    <Content Include="Uploads\Images\img8_refl.jpg" />
+    <Content Include="Uploads\Images\img9_refl.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -251,10 +269,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Uploads\Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
