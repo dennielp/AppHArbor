@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/css.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/Content/css/jquery.selectbox.css")" rel="stylesheet" type="text/css"></link>
+    <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" type="text/css"/>
+    <script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.8.20.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="/Scripts/jquery.selectbox-0.1.3.min.js" type="text/javascript"></script>
+
+    <script src="../../Scripts/imageFlow/imageflow.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../Scripts/imageFlow/imageflow.css" />
+
+  
+    
+</head>
+<body>
+    
+    <div class="page">
+        <div class="header">
+            <div id="headerLogo" class="floatLeft">
+                <img src="@Url.Content("~/Content/images/header_label.png")" alt="Fashion Retail Logo"/>        
+            </div>            
+            <div id="headerButtons" class="floatRight">
+                <ul>
+                    <li>
+                        <a href="@Url.Action("Index","Home")"><img src="/Content/images/home_btn_active.png"/></a>
+                    </li>
+                    <li>
+                        <a href="#"><img src="/Content/images/about_btn.png"/></a>        
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+            @RenderBody()
+        
+    </div>
+    
+        
+
+    
+    
+</body>
+</html>
