@@ -34,7 +34,7 @@ namespace FashionDemo
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<FashionDb>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<FashionDb>());
             
 
             RegisterGlobalFilters(GlobalFilters.Filters);
