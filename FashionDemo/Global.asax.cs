@@ -34,6 +34,7 @@ namespace FashionDemo
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            Database.SetInitializer(new CreateDatabaseIfNotExists<FashionDb>());
             
 
             RegisterGlobalFilters(GlobalFilters.Filters);
