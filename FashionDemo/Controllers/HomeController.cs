@@ -229,7 +229,7 @@ namespace FashionDemo.Controllers
             master.Type = type;
             master.Name = name;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return PartialView("_ProductsList",db.MasterProducts.Include("Products"));
         }
 
         public ActionResult DeleteMaster(FormCollection collection)

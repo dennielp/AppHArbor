@@ -45,7 +45,7 @@
             toggleEditArea();
         });
 
-        $('.table-container tr').click(function () {
+        $('.table-container tr').live('click', function () {
 
             var id = $(this).find('td:first-of-type').attr('id');
             $('#hdnChildId').val(id);
@@ -246,7 +246,7 @@
             <div style="text-align: center;">
                 <span id="editMasterBtn">Edit master</span>
             </div>
-            @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/SaveMasterChanges" }))
+            @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/SaveMasterChanges", UpdateTargetId = "results"}))
             {
                 <div id="editLabelDiv">
                     <span>Label:</span>
