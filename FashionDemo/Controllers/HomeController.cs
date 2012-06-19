@@ -61,7 +61,7 @@ namespace FashionDemo.Controllers
             db.MasterProducts.Add(master);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return PartialView("_ProductsList",db.MasterProducts.Include("Products"));
         }
 
         
@@ -232,14 +232,15 @@ namespace FashionDemo.Controllers
             return RedirectToAction("Index");
         }
 
-        public void DeleteMaster(string id)
+        public ActionResult DeleteMaster(FormCollection collection)
         {
             var db = new FashionDb();
-            var masterId = GetMasterId(id);
+            var masterId = GetMasterId(collection["masterIdDel"]);
 
             var master = db.MasterProducts.Where(m => m.MasterId == masterId).Single();
             db.MasterProducts.Remove(master);
             db.SaveChanges();
+            return PartialView("_ProductsList", db.MasterProducts.Include("Products"));
         }
 
         private string GetMasterId(string str)

@@ -270,6 +270,7 @@
     <None Include="Content\avanti.ttf" />
     <None Include="Content\images\demo-images\.DS_Store" />
     <Content Include="Content\images\item_selected_right.png.bak" />
+    <Content Include="Views\Shared\_ProductsList.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

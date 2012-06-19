@@ -236,7 +236,7 @@ tbody tr:hover {
 
 /* edit child */
 .editArea {
-    width: 100%;
+    width: 99%;
     min-height: 300px;
     background: transparent url("/Content/images/edit_bg.png") 0 0 repeat-x;
     border-top:1px solid #949494;

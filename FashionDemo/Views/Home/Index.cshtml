@@ -50,6 +50,7 @@
             var id = $(this).find('td:first-of-type').attr('id');
             $('#hdnChildId').val(id);
             $('#masterId').val($(this).find('td:first-of-type').text());
+            $('#masterIdDel').val($(this).find('td:first-of-type').text());
             selectProduct(id);
             fillEditFields(id);
         });
@@ -78,8 +79,7 @@
         //delete master product
         $('#delMasterBtn').click(function () {
             if (checkSelected()) {
-                $.getJSON("/Home/DeleteMaster?id=" + $('.edit-master #masterId').val(), function() {
-                });
+                $('#delMasterTrigger').click();
             }
         });
 
@@ -218,22 +218,8 @@
                 </tr>
             </thead>
 
-            <tbody>
-                @foreach (var master in Model)
-                {
-                    foreach (var product in master.Products)
-                    {                        
-                        <tr>
-                            <td id="@product.ProductId">@product.CodeName</td>
-                            <td class="name">@product.MasterProduct.Name</td>
-                            <td class="label">@product.MasterProduct.Label</td>
-                            <td class="type">@product.MasterProduct.Type</td>
-                            <td class="size">@product.Size</td>
-                            <td class="price">@product.Price</td>
-                            <td class="quantity">@product.Quantity</td>
-                        </tr>
-                    }
-                }
+            <tbody id="results">
+                @Html.Partial("_ProductsList",Model)
                 
             </tbody>
         </table>
@@ -279,10 +265,14 @@
                 @Html.Hidden("masterId")
                 <input type="submit" style="display: none" id="submitSaveMaster" />
             }    
-                <div id="delMasterBtn">
-                </div>
+            @using(Ajax.BeginForm(new AjaxOptions(){Url = "/Home/DeleteMaster",UpdateTargetId = "results", OnSuccess = "$('#editMasterBtn').click();"}))
+            {
+                @Html.Hidden("masterIdDel")
+                <input type="submit" id="delMasterTrigger" style="display: none;"/>
+            }
             
-            
+            <div id="delMasterBtn">
+            </div>
         </div>
 
 
@@ -313,7 +303,7 @@
 
 
 <div id="dialog" class="addDialog">
-    @using (Html.BeginForm("AddMasterProduct", "Home"))
+    @using (Ajax.BeginForm(new AjaxOptions(){Url = "/Home/AddMasterProduct",UpdateTargetId = "results",InsertionMode = InsertionMode.Replace	}))
     {
         <div>
             <span><b>Master code</b></span>

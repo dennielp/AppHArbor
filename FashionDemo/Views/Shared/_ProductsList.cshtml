@@ -1,0 +1,17 @@
+﻿@model IEnumerable<FashionDemo.Models.MasterProduct>
+
+@foreach (var master in Model)
+{
+    foreach (var product in master.Products)
+    {                        
+        <tr>
+            <td id="@product.ProductId">@product.CodeName</td>
+            <td class="name">@product.MasterProduct.Name</td>
+            <td class="label">@product.MasterProduct.Label</td>
+            <td class="type">@product.MasterProduct.Type</td>
+            <td class="size">@product.Size</td>
+            <td class="price">@product.Price @product.Currency</td>
+            <td class="quantity">@product.Quantity</td>
+        </tr>
+    }
+}
