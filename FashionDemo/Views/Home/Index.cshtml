@@ -51,6 +51,8 @@
             $('#hdnChildId').val(id);
             $('#masterId').val($(this).find('td:first-of-type').text());
             $('#masterIdDel').val($(this).find('td:first-of-type').text());
+            $('#labelName').html($(this).find('td.name').html());
+            $('#labelCode').html($(this).find('td:first-of-type').text());
             selectProduct(id);
             fillEditFields(id);
         });
@@ -235,8 +237,8 @@
     <div class="editArea">
 
         <div class="edit-master">
-            <div class="edit-master-label">Name</div>
-            <div class="edit-master-label">Master code</div>
+            <div class="edit-master-label" id="labelName">Name</div>
+            <div class="edit-master-label" id="labelCode">Master code</div>
             <div id="addChildBtn">
             </div>
             <div></div>
