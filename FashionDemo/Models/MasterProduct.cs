@@ -22,7 +22,9 @@ namespace FashionDemo.Models
         public string Type { get; set; }
         public string Name { get; set; }
         public double? Discount { get; set; }
-        
+        public double MarkUp { get; set; }
+        public string Season { get; set; }
+        public double Cost { get; set; }
         public ICollection<Product> Products { get; set; }
     }
 }

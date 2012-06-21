@@ -57,9 +57,9 @@ table {
     border: 1px solid black;
     background-color:#606060;
     min-height: 800px;
-    -moz-box-shadow:0 0 5px #acacac;
-    -webkit-box-shadow:0 0 5px #acacac;
-    box-shadow:0 0 5px #acacac;
+    -moz-box-shadow:0 0 10px #000;
+    -webkit-box-shadow:0 0 10px #000;
+    box-shadow:0 0 10px #000;
 }
 
 .floatLeft {
@@ -77,8 +77,8 @@ input[type="text"] {
     background-size:100% 22px;
     border-top: 1px solid #313131;
     border-left: 1px solid #313131;
-    border-bottom:1px solid #b1b1b1;
-    border-right:1px solid #b1b1b1;
+    border-bottom:1px solid #606060;
+    border-right:1px solid #606060;
     border-radius: 20px 20px 20px 20px;
     color: white;
     font-size: 16px;
@@ -115,6 +115,7 @@ input[type="text"] {
 /* Images gallery */
 .imageflow {
     background-color: #181818;
+    
 }
 
 /* content area */
@@ -128,37 +129,36 @@ input[type="text"] {
     margin-left: 10px;
     margin-top: -20px;
     position: absolute;
-    z-index: 999;
+    z-index: 99;
 }
 .border-bottom-gray {
     border-bottom: 1px solid #484848;
 }
 
 .leftColumn {
-    width: 70%;
+    width: 30%;    
 }
 .leftColumn div.blackBar {
     border-right: 1px solid #0c0c0c;
 }
 
 .rightColumn {
-    width: 30%;    
+    width: 70%;    
 }
 .rightColumn div.blackBar {
     border-left: 1px solid #2a2a2a;
 }
 
 #addMasterProduct {
-    margin: 20px 50px 0 0;
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 60px;
 }
-#addMasterProduct img{
-    height: 40px;
-}
-
+    
 
 /* Tables style */
 .table-container {
-    border-right: 1px solid #919191;
+    border-left: 1px solid #919191;
 }
 
 table {
@@ -198,7 +198,8 @@ tbody td:last-of-type {
 }
 
 td:first-child, th:first-child {
-    padding-left:20px;    
+    padding-left:20px;
+    border-left: 0;   
 }
 
 .tr-selected td {
@@ -217,7 +218,6 @@ td:first-child, th:first-child {
     background-position:10px 5px, 20px 5px;
     background-repeat:no-repeat, no-repeat;
     background-size:10px 20px, 100% 20px;
-    border-left: 1px solid #2d2d2d;   
 }
 
 .tr-selected td:last-child{
@@ -236,11 +236,10 @@ tbody tr:hover {
 
 /* edit child */
 .editArea {
-    width: 99%;
+    width: auto;
     min-height: 300px;
     background: transparent url("/Content/images/edit_bg.png") 0 0 repeat-x;
     border-top:1px solid #949494;
-    border-left: 1px solid #949494;
 }
 
 .editArea input {
@@ -307,6 +306,7 @@ tbody tr:hover {
 
 .edit-master-label {
     text-align: center;
+    height: 20px;
 }
 
 #addChildBtn {
@@ -360,24 +360,22 @@ tbody tr:hover {
     color: #bcf065;
 }
 
-#saveBtn {
-    height: 40px;
-    width: 220px;
-    background: transparent url("/Content/images/save_btn.png") 0 0 no-repeat;
-    background-size: auto 100%;
-    margin: 10px;
+#saveBtn 
+{
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 180px;
 }
 #saveBtn:hover {
     cursor: pointer;
 }
 
 #delBtn {
-    height: 40px;
-    width: 40px;
-    background: transparent url(/Content/images/cancel_btn.png) 0 0 no-repeat;
-    margin: 10px;
+    width: 100px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
-#delBtn:hover {
+.closeBtn:hover {
     cursor: pointer;
 }
 
@@ -413,25 +411,8 @@ tbody tr:hover {
     height: 80px;
 }
 
-div.addDialog {
-    border-top: 1px solid #949494 !important;   
-}
-
-.addDialog div 
-{
-    
-    margin: 5px 20px;
-}
 
 
-.addDialog span {
-    display: inline-block;
-    width: 150px;
-    text-shadow: 1px 1px 0 #979797;
-}
-.addDialog input {
-    height: 18px;   
-}
 
 .ui-icon {
     background: url("/Content/images/cancel_btn.png") 0 0 no-repeat !important; 
@@ -476,11 +457,14 @@ div.sbHolder {
 }
 .alt-div2 input[type="text"] {
     width: 134px;
+    display: block;
+    float: left;
 }
 .alt-div2 div.sbHolder {
     width: 50px;
-    position: absolute;
-    margin-left: 4px;
+    vertical-align: middle;
+    margin: 5px 0 5px 10px;
+    clear: both;
 }
 .alt-div2 .sbSelector {
     width: 50px;
@@ -488,10 +472,95 @@ div.sbHolder {
 .alt-div2 .sbOptions {
     width: 50px;
 }
+.alt-div3 {
+    color: white;
+    font-weight: bold;
+}
+.alt-div3 input {
+    width: 140px;
+}
 
 div.addBtn:hover {
     cursor: pointer;
 }
 
 
+/* New Products Creation  Area */
 
+.createArea {
+    height: auto;
+    background-color: #000;
+    display: none;
+    padding-bottom: 10px;
+}
+.createArea div.createArea-master {
+    width: auto;
+    margin: 0 !important;
+    padding: 10px 20px;
+    width: auto;
+    background-color: #2D2D2D;
+    border-bottom: 1px solid #222222;
+    border-top: 1px solid #222222;
+}
+
+
+div.createArea {
+    background-color: #222222;
+}
+
+div.createArea-child {
+    padding: 10px 20px;
+    border-top: 1px solid #2D2D2D;
+}
+
+.createArea .fashionButton {
+    width: 130px;
+    float: left;
+}
+
+.createArea span {
+    display: block;
+    width: 150px;
+    
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+.createArea input {
+    height: 18px;
+    margin: 5px 0 5px 0;   
+}
+
+.createArea .sbHolder {
+    margin: 5px 0 5px 0;
+}
+
+.createArea div.fashionButton {
+    margin-left: 20px;
+}
+
+.fashionButton {
+    background: transparent url(/Content/images/button_bg.png) 0 0 repeat-x;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid #4b4b4b;
+    border-right: 1px solid #4b4b4b;
+    border-radius: 5px;
+    color: #bcf065;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 0 -1px 1px black;
+    height: 30px;
+    line-height: 30px;
+    width: 200px;
+}
+
+.fashionButton:hover {
+    cursor: pointer;
+    text-shadow: 1px 1px 3px #a0ff00;
+}
+.fashionButton:active {
+    color: #000;
+    background-color: #bcf065;
+    text-shadow: 0 -1px 1px black;
+}

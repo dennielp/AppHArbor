@@ -7,30 +7,36 @@
             $('#products-list').css('opacity', 0.5);
         }).ajaxComplete(function () {
             $('#products-list').css('opacity', 1.0);
-            bindChildsTable();
         });
 
-        $('div.addBtn').click(function () {
-            $('#addMasterProductBtn').click();
+        $('#addMasterProductBtn').click(function () {
+            $('#addMasterProductTrigger').click();
         });
 
         $('select').selectbox({
             effect: 'slide'
         });
-        $('#dialog').dialog({
-            modal: true,
-            autoOpen: false,
-            show: 'fade',
-            hide: 'fade',
-            resizable: false,
-            width: 450,
-            title: '<img id="dialogTitleImg" src="/Content/images/dialog_title.png" />'
+
+        $('#price').blur(function () {
+            var cost = parseFloat($('#price').val());
+            var markUp = parseFloat($('#markUp').val());
+            var currency = $('#currency').val();
+            if (cost && markUp && currency) {
+                $('#sellPrice').val(cost + cost * (markUp / 100) + ' ' + currency);
+            }
+            else {
+                $('#sellPrice').val('');
+            }
         });
-        $('#dialog input[type="submit"]').click(function () {
-            $('#dialog').dialog('close');
-        });
+
         $('#addMasterProduct').click(function () {
-            $('#dialog').dialog('open');
+            $('#results tr').removeClass('tr-selected');
+            toggleCreateArea();
+
+        });
+
+        $('#cancelMasterProductBtn').click(function() {
+            toggleCreateArea();
         });
 
         $('#editMasterBtn').click(function () {
@@ -41,15 +47,18 @@
                 $(this).html('Edit master');
             }
 
-
             toggleEditArea();
         });
 
+        //binding rows selection
         $('.table-container tr').live('click', function () {
+
+            if ($('#create').is(':visible')) {
+                toggleCreateArea();
+            }
 
             var id = $(this).find('td:first-of-type').attr('id');
             $('#hdnChildId').val(id);
-            $('#masterId').val($(this).find('td:first-of-type').text());
             $('#masterIdDel').val($(this).find('td:first-of-type').text());
             $('#labelName').html($(this).find('td.name').html());
             $('#labelCode').html($(this).find('td:first-of-type').text());
@@ -107,13 +116,14 @@
         var $trToDelete = $('tr.tr-selected');
         var id = $trToDelete.find('td:first-of-type').attr('id');
         $.getJSON("/Home/DeleteProduct?id=" + id, function () {
-            $trToDelete.fadeOut(500);
+            clearEditArea();
+            $trToDelete.fadeOut(200);
         });
     }
     
     function fillEditFields(id) {
         $.getJSON("/Home/GetProductById?id=" + id, function (data) {
-            $('#txtEditPrice').val(data.Price);
+            $('#txtEditPrice').val(data.SellPrice);
             $('#txtEditQuantity').val(data.Quantity);
             $('#editLabelDiv a.sbSelector').html(data.Label);
             $('#editTypeDiv a.sbSelector').html(data.Type);
@@ -127,6 +137,23 @@
     
     var $child, $master;
 
+
+    function toggleCreateArea() {
+        var $createArea = $('#create');
+        if ($createArea.is(':visible')) {
+
+            $createArea.slideUp(300,function () {
+                $('#edit').fadeIn(300);    
+            });
+        }
+        else {
+            $('#edit').fadeOut(300, function () {
+                $createArea.slideDown(300);    
+            });
+            
+        }
+    }
+    
     function toggleEditArea() {
         $child = $('div.edit-child');
         $master = $('div.edit-master');
@@ -170,20 +197,33 @@
         $row.find('td.quantity').html($('.edit-child #txtEditQuantity').val());
     }
 
-    
+    function addMasterSuccess() {
+        var count = parseInt($('tbody tr:first-child').attr('title'));
+        var $rows = $('tbody tr:lt(' + count + ')');
+        $rows.css("background-color", "#BCF065").animate({
+            backgroundColor: "#2D2D2D"
+        }, 700, function () {
 
+            $(this).removeAttr('style');
+        });
+        
+        clearCreationFields();
+    }
+    
+    function clearCreationFields() {
+        $('.createArea-child input').val('');
+    }
+
+    function clearEditArea() {
+        $('div.edit-child input').val('');
+        $('div.edit-master-label').html('');
+        
+    }
+    
 </script>
 
 
-<div id="myImageFlow" class="imageflow border-bottom-gray" style="height: 200px;">
-   
-        @foreach (var img in ViewBag.images)
-        {
-            <img src="@Url.Content(img)" alt="Image 1" class="imgFlow" />    
-        }
-</div>
-
-<div class="leftColumn floatLeft">
+<div class="rightColumn floatRight">
 
     <div class="blackBar">
         <div class="blackBar-imageDiv">
@@ -228,19 +268,84 @@
      </div>  
     
 </div>
-<div class="rightColumn floatLeft">
+<div class="leftColumn floatLeft">
     <div class="blackBar">
-        <div class="floatRight" id="addMasterProduct">
-            <a href="#"><img src="/Content/images/add_new_button.png"/></a>
+        <div class="fashionButton" id="addMasterProduct">
+            Add new products
         </div>
     </div>
-    <div class="editArea">
+
+    <div class="createArea" id="create">
+        @using (Ajax.BeginForm(new AjaxOptions(){Url = "/Home/AddMasterProduct",UpdateTargetId = "results",InsertionMode = InsertionMode.InsertBefore, OnSuccess = "addMasterSuccess()", OnFailure = "alert('Please check all fields contain correct data')"}))
+        {
+            <div class="createArea-master">        
+                <div>
+                    <span>Label:</span>
+                    @Html.DropDownList("label")
+                </div>
+                <div class="alt-div">
+                    <span>Sizing:</span>
+                    @Html.DropDownList("fromSize")
+                    @Html.DropDownList("toSize")
+                </div>
+                <div>
+                    <span>Season</span>
+                    @Html.DropDownList("season")
+                </div>
+                <div>
+                    <span>Category:</span>
+                    @Html.DropDownList("productType")
+                </div>
+                <div class="alt-div3">
+                    <span>Mark up:</span>
+                    @Html.TextBox("markUp") %                    
+                </div>
+        
+            </div>
+            <div class="createArea-child">
+                <div>
+                    <span>Master number:</span>
+                    @Html.TextBox("masterId")
+                </div>
+                <div>
+                    <span>Color:</span>
+                    @Html.DropDownList("color")
+                </div>
+                <div class="alt-div2">
+                    <span>Cost:</span>
+                    @Html.TextBox("price")
+                    @Html.DropDownList("currency")
+                </div>
+                <div>
+                    <span>Sell:</span>
+                    @Html.TextBox("sellPrice", null, new { disabled = "disabled" })
+                </div>
+                <div>
+                    <span>Quantity:</span>
+                    @Html.TextBox("quantity")
+                </div>
+                <div>
+                    <span>Description:</span>
+                    @Html.TextBox("name")
+                </div>
+            </div>
+            
+            <input type="submit" value="Add" id="addMasterProductTrigger" style="display: none;" />
+            <div class="fashionButton" id="addMasterProductBtn" >
+                Add
+            </div>
+            <div class="fashionButton" id="cancelMasterProductBtn">
+                Cancel
+            </div>
+            <div class="clear"></div>
+        }
+    </div>
+
+    <div class="editArea" id="edit">
 
         <div class="edit-master">
             <div class="edit-master-label" id="labelName">Name</div>
             <div class="edit-master-label" id="labelCode">Master code</div>
-            <div id="addChildBtn">
-            </div>
             <div></div>
             <div class="edit-master-imageDiv">
                 <img src="../../Uploads/Images/img1_refl.jpg" />
@@ -248,7 +353,7 @@
             <div style="text-align: center;">
                 <span id="editMasterBtn">Edit master</span>
             </div>
-            @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/SaveMasterChanges", UpdateTargetId = "results"}))
+            @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/SaveMasterChanges", UpdateTargetId = "results" }))
             {
                 <div id="editLabelDiv">
                     <span>Label:</span>
@@ -267,7 +372,7 @@
                 @Html.Hidden("masterId")
                 <input type="submit" style="display: none" id="submitSaveMaster" />
             }    
-            @using(Ajax.BeginForm(new AjaxOptions(){Url = "/Home/DeleteMaster",UpdateTargetId = "results", OnSuccess = "$('#editMasterBtn').click();"}))
+            @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/DeleteMaster", UpdateTargetId = "results", OnSuccess = "$('#editMasterBtn').click();" }))
             {
                 @Html.Hidden("masterIdDel")
                 <input type="submit" id="delMasterTrigger" style="display: none;"/>
@@ -275,8 +380,8 @@
             
             <div id="delMasterBtn">
             </div>
-        </div>
 
+        </div>
 
         <div class="edit-child">
         @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/SaveChildChanges", OnSuccess = "updateRow()" }))
@@ -285,10 +390,11 @@
             @Html.TextBox("txtEditPrice")
             <label class="floatLeft">Quantity</label>
             @Html.TextBox("txtEditQuantity")
-            <div id="saveBtn" class="floatLeft">
+            <div id="saveBtn" class="fashionButton floatLeft">
+                Save
             </div>
-            <div id="delBtn" class="floatLeft">
-                
+            <div id="delBtn" class="fashionButton floatLeft">
+                Delete
             </div>
             <div class="clear"></div>
             @Html.Hidden("hdnChildId")
@@ -297,57 +403,12 @@
         </div>
         
     </div>
-    
+        
 </div>
 <div class="clear">
 </div>
 
 
 
-<div id="dialog" class="addDialog">
-    @using (Ajax.BeginForm(new AjaxOptions(){Url = "/Home/AddMasterProduct",UpdateTargetId = "results",InsertionMode = InsertionMode.Replace	}))
-    {
-        <div>
-            <span><b>Master code</b></span>
-            @Html.TextBox("masterId")
-        </div>
-        <div>
-            <span>Label</span>
-            @Html.DropDownList("label")
-        </div>
-        <div>
-            <span>Type</span>
-            @Html.DropDownList("productType")
-        </div>
-        <div>
-            <span>Name</span>
-            @Html.TextBox("name")
-        </div>
-        <div class="alt-div">
-            <span>Sizing</span>
-            @Html.DropDownList("fromSize")
-            @Html.DropDownList("toSize")
-        </div>
-                
-        <div class="alt-div2">
-            <span>Cost</span>
-            @Html.TextBox("price")
-            @Html.DropDownList("currency")
-        </div>
-        <div>
-            <span>Color</span>
-            @Html.DropDownList("color")
-        </div>
-        <div>
-            <span>Quantity</span>
-            @Html.TextBox("quantity")
-        </div>
-                
-        <div class="addBtn">
-            
-        </div>
-        <div style="display: none;">
-            <input type="submit" value="Add" id="addMasterProductBtn" />
-        </div>
-    }
-</div>
+
+   

@@ -37,7 +37,10 @@ namespace FashionDemo.Controllers
                                  Label = form["label"],
                                  Supplier = form["supplier"],
                                  Name = form["name"],
-                                 Type = form["productType"]
+                                 Type = form["productType"],
+                                 MarkUp = Double.Parse(form["markUp"]),
+                                 Season = form["season"],
+                                 Cost = Double.Parse(form["Price"]),
                              };
             
             var dateAdded = DateTime.Now;
@@ -47,21 +50,24 @@ namespace FashionDemo.Controllers
             {
                 productsList.Add(new Product()
                                      {
-                                         Price = Double.Parse(form["price"]),
                                          Color = form["color"],
                                          Currency = form["currency"],
                                          DateAdded = dateAdded,
                                          MasterId = master.MasterId,
                                          Size = i,
                                          Quantity = Int32.Parse(form["quantity"]),
-                                         CodeName = String.Format("{0}-{1}-{2}",master.MasterId,i,form["color"])
+                                         CodeName = String.Format("{0}-{1}-{2}",
+                                            master.MasterId,
+                                            i>=10?i.ToString():String.Format("0{0}",i),
+                                            form["color"]),
+                                         SellPrice = master.Cost*(master.MarkUp/100)
                                      });
             }
             master.Products = productsList;
             db.MasterProducts.Add(master);
             db.SaveChanges();
 
-            return PartialView("_ProductsList",db.MasterProducts.Include("Products"));
+            return PartialView("_ProductsList",db.MasterProducts.Include("Products").Where(m=>m.MasterId==master.MasterId));
         }
 
         
@@ -70,7 +76,7 @@ namespace FashionDemo.Controllers
             if(!String.IsNullOrEmpty(searchFor))
             {
                 var db = new FashionDb();
-                ViewBag.Images = GetImages();
+                //ViewBag.Images = GetImages();
                 GetIndexPageData();
                 return View("Index", db.MasterProducts.Include("Products").Where(m => m.Name.Contains(searchFor) || m.Label.Contains(searchFor)));    
             }
@@ -166,6 +172,18 @@ namespace FashionDemo.Controllers
                                                       Text = col
                                                   });
             ViewBag.color = colors;
+            var seasons = new List<string>()
+                              {
+                                  "Summer",
+                                  "Autumn",
+                                  "Winter",
+                                  "Spring"
+                              }.Select(s=>new SelectListItem()
+                                              {
+                                                  Value = s,
+                                                  Text = s
+                                              });
+            ViewBag.season = seasons;
         }
 
         
@@ -177,7 +195,7 @@ namespace FashionDemo.Controllers
             return Json(new
                             {
                                 prod.ProductId,
-                                prod.Price,
+                                prod.SellPrice,
                                 prod.MasterId,
                                 prod.Currency,
                                 prod.Color,
@@ -200,7 +218,7 @@ namespace FashionDemo.Controllers
             var q = Int32.Parse(collection["txtEditQuantity"]);
 
             var prod = db.Products.Where(p => p.ProductId == id).Single();
-            prod.Price = price;
+            prod.SellPrice = price;
             prod.Quantity = q;
 
             db.SaveChanges();
@@ -211,7 +229,14 @@ namespace FashionDemo.Controllers
         {
             var db = new FashionDb();
             var prod=db.Products.Where(p => p.ProductId == id).Single();
+            var masterId = prod.MasterId;
             db.Products.Remove(prod);
+            db.SaveChanges();
+            if(db.Products.Where(p=>p.MasterId==masterId).Count()==0)
+            {
+                var master = db.MasterProducts.Where(m => m.MasterId == masterId).Single();
+                db.MasterProducts.Remove(master);
+            }
             db.SaveChanges();
         }
 
