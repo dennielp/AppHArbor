@@ -94,6 +94,7 @@
     <Content Include="Content\images\add_new_button.png" />
     <Content Include="Content\images\arrows.gif" />
     <Content Include="Content\images\arrows.png" />
+    <Content Include="Content\images\button_bg.png" />
     <Content Include="Content\images\cancel_btn.png" />
     <Content Include="Content\images\delete_master_btn.png" />
     <Content Include="Content\images\demo-images\1-2.jpg" />
