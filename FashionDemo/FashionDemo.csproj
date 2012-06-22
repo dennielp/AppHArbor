@@ -216,6 +216,7 @@
     <Content Include="Scripts\jquery.color.js" />
     <Content Include="Scripts\jquery.easing.1.2.js" />
     <Content Include="Scripts\jquery.selectbox-0.1.3.min.js" />
+    <Content Include="Scripts\jquery.tablesorter.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

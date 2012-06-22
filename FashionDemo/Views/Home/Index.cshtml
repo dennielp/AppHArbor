@@ -17,25 +17,25 @@
             effect: 'slide'
         });
 
-        $('#price').blur(function () {
-            var cost = parseFloat($('#price').val());
-            var markUp = parseFloat($('#markUp').val());
-            var currency = $('#currency').val();
-            if (cost && markUp && currency) {
-                $('#sellPrice').val(cost + cost * (markUp / 100) + ' ' + currency);
-            }
-            else {
-                $('#sellPrice').val('');
-            }
+        $('#price, #markUp').keyup(function () {
+            markUpCalc();
         });
 
+        $('#resultsTable').tablesorter();
+        $('th').hover(function () {
+            $(this).css('color', '#BCF065');
+        }, function () {
+            $(this).css('color', '#0F0F0F');
+        });
+
+        
         $('#addMasterProduct').click(function () {
             $('#results tr').removeClass('tr-selected');
             toggleCreateArea();
 
         });
 
-        $('#cancelMasterProductBtn').click(function() {
+        $('#cancelMasterProductBtn').click(function () {
             toggleCreateArea();
         });
 
@@ -96,6 +96,18 @@
 
     });
 
+    function markUpCalc() {
+        var cost = parseFloat($('#price').val());
+        var markUp = parseFloat($('#markUp').val());
+        var currency = $('#currency').val();
+        if (cost && markUp && currency) {
+            $('#sellPrice').val(cost + cost * (markUp / 100) + ' ' + currency);
+        }
+        else {
+            $('#sellPrice').val('');
+        }
+    }
+    
     function checkSelected() {
         if ($('tr.tr-selected').length > 0) {
             return true;
@@ -195,6 +207,14 @@
         var $row = $('tr.tr-selected');
         $row.find('td.price').html($('.edit-child #txtEditPrice').val());
         $row.find('td.quantity').html($('.edit-child #txtEditQuantity').val());
+
+        $row.animate({
+                'opacity': '0.5'
+            }, 200, function() {
+                $(this).animate({
+                        'opacity': '0.99'
+                    });
+            });
     }
 
     function addMasterSuccess() {
@@ -206,8 +226,10 @@
 
             $(this).removeAttr('style');
         });
-        
+
         clearCreationFields();
+        //rebinding filter
+        $("#resultsTable").trigger("update");
     }
     
     function clearCreationFields() {
@@ -217,9 +239,14 @@
     function clearEditArea() {
         $('div.edit-child input').val('');
         $('div.edit-master-label').html('');
-        
     }
-    
+
+    function deleteMasterSuccess() {
+        $('#resultsTable').trigger('update');
+        $('#editMasterBtn').click();   
+    }
+
+   
 </script>
 
 
@@ -247,7 +274,7 @@
 </div>
     
      <div class="table-container">
-        <table>
+        <table id='resultsTable'>
             <thead>
                 <tr>
                     <th>Code</th>
@@ -372,7 +399,7 @@
                 @Html.Hidden("masterId")
                 <input type="submit" style="display: none" id="submitSaveMaster" />
             }    
-            @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/DeleteMaster", UpdateTargetId = "results", OnSuccess = "$('#editMasterBtn').click();" }))
+            @using (Ajax.BeginForm(new AjaxOptions() { Url = "/Home/DeleteMaster", UpdateTargetId = "results", OnSuccess = "deleteMasterSuccess()" }))
             {
                 @Html.Hidden("masterIdDel")
                 <input type="submit" id="delMasterTrigger" style="display: none;"/>

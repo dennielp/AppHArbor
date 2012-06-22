@@ -214,7 +214,7 @@ namespace FashionDemo.Controllers
         {
             var db = new FashionDb();
             var id = Int32.Parse(collection["hdnChildId"]);
-            var price = Int32.Parse(collection["txtEditPrice"]);
+            var price = Double.Parse(collection["txtEditPrice"]);
             var q = Int32.Parse(collection["txtEditQuantity"]);
 
             var prod = db.Products.Where(p => p.ProductId == id).Single();
