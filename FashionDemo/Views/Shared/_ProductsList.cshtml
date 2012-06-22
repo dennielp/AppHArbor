@@ -4,7 +4,7 @@
 {
     foreach (var product in master.Products.OrderByDescending(p=>p.DateAdded).ThenBy(p=>p.CodeName))
     {                        
-        <tr title="@master.Products.Count()">
+        <tr data-rows="@master.Products.Count()">
             <td id="@product.ProductId">@product.CodeName</td>
             <td class="name">@product.MasterProduct.Name</td>
             <td class="label">@product.MasterProduct.Label</td>

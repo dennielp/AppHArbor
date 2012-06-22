@@ -218,7 +218,7 @@
     }
 
     function addMasterSuccess() {
-        var count = parseInt($('tbody tr:first-child').attr('title'));
+        var count = parseInt($('tbody tr:first-child').attr('data-rows'));
         var $rows = $('tbody tr:lt(' + count + ')');
         $rows.css("background-color", "#BCF065").animate({
             backgroundColor: "#2D2D2D"
