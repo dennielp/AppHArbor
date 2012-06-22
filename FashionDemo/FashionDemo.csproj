@@ -133,9 +133,12 @@
     <Content Include="Content\images\demo-images\_notes\dwsync.xml" />
     <Content Include="Content\images\dialog_header_bg.png" />
     <Content Include="Content\images\dialog_title.png" />
+    <Content Include="Content\images\filter_desc.gif" />
     <Content Include="Content\images\dropdpown_icon.png" />
     <Content Include="Content\images\edit_bg.png" />
     <Content Include="Content\images\edit_master_btn.png" />
+    <Content Include="Content\images\filter_asc.gif" />
+    <Content Include="Content\images\filter_normal.gif" />
     <Content Include="Content\images\header_bg.png" />
     <Content Include="Content\images\header_label.png" />
     <Content Include="Content\images\home_btn_active.png" />
